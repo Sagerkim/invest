@@ -8,92 +8,95 @@
 <style>
   :root {
     color-scheme: light dark;
-    --bg: #f6f7f9;
-    --card: #ffffff;
-    --text: #16181d;
-    --muted: #6b7280;
-    --line: #e5e7eb;
-    --up: #d4342b;
-    --down: #1666d0;
+    --bg: #f6f7f9; --card: #fff; --text: #16181d; --muted: #6b7280;
+    --line: #e5e7eb; --up: #d4342b; --down: #1666d0; --accent: #2f6fed;
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #0e1116;
-      --card: #171b22;
-      --text: #e8eaed;
-      --muted: #9aa2ae;
-      --line: #262c36;
-      --up: #ff6b60;
-      --down: #64a2ff;
+      --bg: #0e1116; --card: #171b22; --text: #e8eaed; --muted: #9aa2ae;
+      --line: #262c36; --up: #ff6b60; --down: #64a2ff; --accent: #6ea0ff;
     }
   }
   * { box-sizing: border-box; }
   body {
-    margin: 0;
-    padding: 20px 16px 48px;
-    background: var(--bg);
-    color: var(--text);
+    margin: 0; padding: 20px 16px 56px; background: var(--bg); color: var(--text);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Malgun Gothic", sans-serif;
     -webkit-text-size-adjust: 100%;
   }
-  .wrap { max-width: 860px; margin: 0 auto; }
-  header { margin-bottom: 20px; }
+  .wrap { max-width: 960px; margin: 0 auto; }
   h1 { font-size: 20px; margin: 0 0 4px; letter-spacing: -0.02em; }
-  .updated { font-size: 13px; color: var(--muted); }
+  .updated { font-size: 13px; color: var(--muted); margin-bottom: 20px; }
   .cards { display: grid; gap: 12px; grid-template-columns: 1fr; }
-  @media (min-width: 620px) { .cards { grid-template-columns: repeat(3, 1fr); } }
-  .card {
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    padding: 16px;
+  @media (min-width: 640px) { .cards { grid-template-columns: repeat(3, 1fr); } }
+  .card, .panel {
+    background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px;
   }
   .card h2 { font-size: 14px; font-weight: 600; margin: 0 0 10px; color: var(--muted); }
   .value { font-size: 27px; font-weight: 700; letter-spacing: -0.03em; }
   .value span { font-size: 15px; font-weight: 500; color: var(--muted); margin-left: 3px; }
   .delta { margin-top: 6px; font-size: 14px; font-weight: 600; }
-  .delta.up { color: var(--up); }
-  .delta.down { color: var(--down); }
-  .delta.flat { color: var(--muted); }
+  .up { color: var(--up); } .down { color: var(--down); } .flat { color: var(--muted); }
   .asof { margin-top: 8px; font-size: 12px; color: var(--muted); }
-  .chart-card { margin-top: 16px; background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px; }
-  .chart-card h2 { font-size: 15px; margin: 0 0 12px; }
-  .chart-box { position: relative; height: 260px; }
-  .ranges { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
-  .ranges button {
+  .panel { margin-top: 16px; }
+  .panel h2 { font-size: 15px; margin: 0 0 12px; }
+  .controls { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; margin-bottom: 14px; }
+  .controls button {
     font: inherit; font-size: 13px; padding: 5px 12px; border-radius: 999px;
     border: 1px solid var(--line); background: transparent; color: var(--muted); cursor: pointer;
   }
-  .ranges button[aria-pressed="true"] { background: var(--text); color: var(--card); border-color: var(--text); }
+  .controls button[aria-pressed="true"] { background: var(--text); color: var(--card); border-color: var(--text); }
+  .range { display: flex; gap: 6px; align-items: center; margin-left: auto; flex-wrap: wrap; }
+  .range input[type="date"] {
+    font: inherit; font-size: 13px; padding: 4px 8px; border-radius: 8px;
+    border: 1px solid var(--line); background: var(--card); color: var(--text);
+  }
+  .range button { border-color: var(--accent); color: var(--accent); }
+  .chart-box { position: relative; height: 300px; }
+  .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table { border-collapse: collapse; width: 100%; font-size: 13px; min-width: 560px; }
+  th, td { padding: 9px 10px; text-align: right; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  th { color: var(--muted); font-weight: 600; position: sticky; top: 0; background: var(--card); }
+  th:first-child, td:first-child { text-align: left; }
+  td.chg { font-size: 12px; }
+  .empty { padding: 28px 16px; text-align: center; color: var(--muted); font-size: 14px; line-height: 1.7; }
   .note { margin-top: 20px; font-size: 13px; line-height: 1.7; color: var(--muted); }
-  .error { padding: 16px; border-radius: 12px; background: var(--card); border: 1px solid var(--line); }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header>
-    <h1>증시 수급 대시보드</h1>
-    <div class="updated" id="updated">불러오는 중…</div>
-  </header>
+  <h1>증시 수급 대시보드</h1>
+  <div class="updated" id="updated">불러오는 중…</div>
 
   <div class="cards" id="cards"></div>
 
-  <div class="chart-card">
-    <h2>추이</h2>
-    <div class="ranges" id="ranges">
-      <button data-days="30" aria-pressed="true">1개월</button>
-      <button data-days="90" aria-pressed="false">3개월</button>
-      <button data-days="180" aria-pressed="false">6개월</button>
-      <button data-days="9999" aria-pressed="false">전체</button>
+  <div class="panel">
+    <h2>일간 추이</h2>
+    <div class="controls" id="controls">
+      <button data-days="30">1개월</button>
+      <button data-days="90">3개월</button>
+      <button data-days="180">6개월</button>
+      <button data-days="365" aria-pressed="true">1년</button>
+      <button data-days="0">전체</button>
+      <span class="range">
+        <input type="date" id="from" aria-label="시작일" />
+        <span style="color:var(--muted)">~</span>
+        <input type="date" id="to" aria-label="종료일" />
+        <button id="apply">조회</button>
+      </span>
     </div>
     <div class="chart-box"><canvas id="chart"></canvas></div>
+  </div>
+
+  <div class="panel">
+    <h2>일별 수치 <span id="rowcount" style="font-weight:400;color:var(--muted);font-size:13px"></span></h2>
+    <div class="table-scroll" id="tableBox"></div>
   </div>
 
   <p class="note">
     <strong>투자자예탁금</strong>은 투자자가 증권계좌에 넣어둔 대기 자금으로, 늘어나면 사려는 힘이 쌓인다는 뜻입니다.<br />
     <strong>신용융자</strong>는 돈을 빌려 주식을 산 금액으로, 늘어나면 빚을 낸 투자가 많아졌다는 뜻입니다.<br />
     <strong>CMA잔고</strong>는 단기 대기자금으로, 예탁금과 함께 시장에 들어올 준비가 된 돈의 크기를 보여줍니다.<br />
-    출처: 금융투자협회 FreeSIS 한눈에 보는 자본시장 · 수치는 영업일 기준이며 하루 뒤 확정 게시됩니다.
+    단위는 조원. 출처: 금융투자협회 FreeSIS 한눈에 보는 자본시장 · 수치는 영업일 기준이며 하루 뒤 확정 게시됩니다.
   </p>
 </div>
 
@@ -105,6 +108,11 @@ const METRICS = [
 ];
 
 const fmt = (n) => n.toLocaleString("ko-KR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const cls = (c) => (c == null ? "flat" : c > 0 ? "up" : c < 0 ? "down" : "flat");
+const sign = (c) => (c == null ? "—" : (c > 0 ? "▲ +" : c < 0 ? "▼ " : "") + fmt(c));
+
+let history = [];
+let chart = null;
 
 function renderCards(latest) {
   document.getElementById("updated").textContent =
@@ -113,40 +121,46 @@ function renderCards(latest) {
   document.getElementById("cards").innerHTML = METRICS.map(({ key, label }) => {
     const m = latest.metrics?.[key];
     if (!m) return "";
-    const c = m.change;
-    const cls = c == null ? "flat" : c > 0 ? "up" : c < 0 ? "down" : "flat";
-    const txt = c == null ? "전일 대비 —" : c === 0 ? "보합" : `${c > 0 ? "▲ +" : "▼ "}${fmt(c)}조`;
     return `<div class="card">
       <h2>${label}</h2>
       <div class="value">${fmt(m.value)}<span>조원</span></div>
-      <div class="delta ${cls}">${txt}</div>
+      <div class="delta ${cls(m.change)}">전일 대비 ${sign(m.change)}${m.change == null ? "" : "조"}</div>
       <div class="asof">${m.date} 기준</div>
     </div>`;
   }).join("");
 }
 
-let chart, history = [];
+/** 화면에 표시할 구간을 고른다. days=0 이면 전체, from/to 가 있으면 그 구간. */
+function slice({ days, from, to }) {
+  if (from || to) {
+    return history.filter((r) => (!from || r.date >= from) && (!to || r.date <= to));
+  }
+  if (!days) return history.slice();
+  const cutoff = new Date();
+  cutoff.setDate(cutoff.getDate() - days);
+  const min = cutoff.toISOString().slice(0, 10);
+  return history.filter((r) => r.date >= min);
+}
 
-function draw(days) {
-  const rows = history.slice(-days);
+function renderChart(rows) {
+  const used = METRICS.filter((m) => rows.some((r) => r[m.key] != null));
   const data = {
-    labels: rows.map((r) => r.date.slice(5)),
-    datasets: METRICS
-      .filter((m) => rows.some((r) => r[m.key] != null))
-      .map((m) => ({
-        label: m.label,
-        data: rows.map((r) => r[m.key] ?? null),
-        borderColor: m.color,
-        backgroundColor: m.color,
-        borderWidth: 2,
-        pointRadius: 0,
-        pointHoverRadius: 4,
-        tension: 0.25,
-        spanGaps: true,
-      })),
+    labels: rows.map((r) => r.date),
+    datasets: used.map((m) => ({
+      label: m.label,
+      data: rows.map((r) => r[m.key] ?? null),
+      borderColor: m.color,
+      backgroundColor: m.color,
+      borderWidth: 2,
+      pointRadius: rows.length > 60 ? 0 : 2,
+      pointHoverRadius: 4,
+      tension: 0.2,
+      spanGaps: true,
+    })),
   };
-  const muted = getComputedStyle(document.documentElement).getPropertyValue("--muted").trim();
-  const line = getComputedStyle(document.documentElement).getPropertyValue("--line").trim();
+  const css = getComputedStyle(document.documentElement);
+  const muted = css.getPropertyValue("--muted").trim();
+  const line = css.getPropertyValue("--line").trim();
 
   if (chart) { chart.data = data; chart.update(); return; }
   chart = new Chart(document.getElementById("chart"), {
@@ -157,16 +171,64 @@ function draw(days) {
       maintainAspectRatio: false,
       interaction: { mode: "index", intersect: false },
       plugins: {
-        legend: { labels: { color: muted, boxWidth: 10, boxHeight: 10, usePointStyle: true } },
-        tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: ${fmt(ctx.parsed.y)}조원` } },
+        legend: { labels: { color: muted, usePointStyle: true, boxWidth: 8, boxHeight: 8 } },
+        tooltip: { callbacks: { label: (c) => `${c.dataset.label}: ${fmt(c.parsed.y)}조원` } },
       },
       scales: {
-        x: { ticks: { color: muted, maxTicksLimit: 7 }, grid: { display: false } },
+        x: { ticks: { color: muted, maxTicksLimit: 8, autoSkip: true }, grid: { display: false } },
         y: { ticks: { color: muted, callback: (v) => v + "조" }, grid: { color: line } },
       },
     },
   });
 }
+
+function renderTable(rows) {
+  document.getElementById("rowcount").textContent = `(${rows.length}일)`;
+  if (!rows.length) {
+    document.getElementById("tableBox").innerHTML =
+      `<div class="empty">선택한 기간에 데이터가 없습니다.</div>`;
+    return;
+  }
+  const desc = rows.slice().reverse(); // 최신이 위로
+  const head = `<tr><th>날짜</th>${METRICS.map((m) => `<th>${m.label}</th>`).join("")}</tr>`;
+  const body = desc.map((row, i) => {
+    const prev = desc[i + 1];
+    const cells = METRICS.map((m) => {
+      const v = row[m.key];
+      if (v == null) return `<td>—</td>`;
+      const p = prev?.[m.key];
+      const d = p == null ? null : Math.round((v - p) * 1000) / 1000;
+      return `<td>${fmt(v)}<div class="chg ${cls(d)}">${sign(d)}</div></td>`;
+    }).join("");
+    return `<tr><td>${row.date}</td>${cells}</tr>`;
+  }).join("");
+  document.getElementById("tableBox").innerHTML = `<table><thead>${head}</thead><tbody>${body}</tbody></table>`;
+}
+
+function apply(sel) {
+  const rows = slice(sel);
+  renderChart(rows);
+  renderTable(rows);
+}
+
+document.getElementById("controls").addEventListener("click", (e) => {
+  const btn = e.target.closest("button[data-days]");
+  if (!btn) return;
+  document.querySelectorAll("#controls button[data-days]")
+    .forEach((b) => b.setAttribute("aria-pressed", String(b === btn)));
+  document.getElementById("from").value = "";
+  document.getElementById("to").value = "";
+  apply({ days: Number(btn.dataset.days) });
+});
+
+document.getElementById("apply").addEventListener("click", () => {
+  const from = document.getElementById("from").value;
+  const to = document.getElementById("to").value;
+  if (!from && !to) return;
+  document.querySelectorAll("#controls button[data-days]")
+    .forEach((b) => b.setAttribute("aria-pressed", "false"));
+  apply({ from, to });
+});
 
 async function load() {
   try {
@@ -175,21 +237,19 @@ async function load() {
       fetch("data/latest.json" + bust).then((r) => r.json()),
       fetch("data/history.json" + bust).then((r) => r.json()),
     ]);
-    history = hist;
+    history = hist.filter((r) => r && r.date).sort((a, b) => a.date.localeCompare(b.date));
     renderCards(latest);
-    draw(30);
+
+    if (history.length) {
+      document.getElementById("from").min = history[0].date;
+      document.getElementById("to").max = history[history.length - 1].date;
+    }
+    apply({ days: 365 }); // 기본 1년
   } catch (e) {
     document.getElementById("cards").innerHTML =
-      `<div class="error">아직 수집된 데이터가 없습니다. GitHub Actions에서 워크플로를 한 번 실행해 주세요.</div>`;
+      `<div class="empty">아직 수집된 데이터가 없습니다. GitHub Actions에서 워크플로를 한 번 실행해 주세요.</div>`;
   }
 }
-
-document.getElementById("ranges").addEventListener("click", (e) => {
-  const btn = e.target.closest("button");
-  if (!btn) return;
-  [...e.currentTarget.children].forEach((b) => b.setAttribute("aria-pressed", String(b === btn)));
-  draw(Number(btn.dataset.days));
-});
 
 load();
 </script>
