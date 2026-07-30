@@ -18,7 +18,7 @@ import requests
 LATEST = Path(__file__).parent / "docs" / "data" / "latest.json"
 
 # 지표를 보여줄 순서. 요청하신 두 지표를 위에 둔다.
-ORDER = ["deposit", "credit_loan", "collateral_loan"]
+ORDER = ["deposit", "credit_loan", "cma"]
 
 
 def _format_change(change: float | None) -> str:

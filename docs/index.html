@@ -91,16 +91,17 @@
 
   <p class="note">
     <strong>투자자예탁금</strong>은 투자자가 증권계좌에 넣어둔 대기 자금으로, 늘어나면 사려는 힘이 쌓인다는 뜻입니다.<br />
-    <strong>신용거래융자</strong>는 돈을 빌려 주식을 산 금액으로, 늘어나면 빚을 낸 투자가 많아졌다는 뜻입니다.<br />
-    출처: 금융투자협회 FreeSIS · 수치는 영업일 기준이며 하루 뒤 확정 게시됩니다.
+    <strong>신용융자</strong>는 돈을 빌려 주식을 산 금액으로, 늘어나면 빚을 낸 투자가 많아졌다는 뜻입니다.<br />
+    <strong>CMA잔고</strong>는 단기 대기자금으로, 예탁금과 함께 시장에 들어올 준비가 된 돈의 크기를 보여줍니다.<br />
+    출처: 금융투자협회 FreeSIS 한눈에 보는 자본시장 · 수치는 영업일 기준이며 하루 뒤 확정 게시됩니다.
   </p>
 </div>
 
 <script>
 const METRICS = [
-  { key: "deposit",         label: "투자자예탁금",     color: "#2f6fed" },
-  { key: "credit_loan",     label: "신용거래융자",     color: "#e0733a" },
-  { key: "collateral_loan", label: "예탁증권담보융자", color: "#4a9a72" },
+  { key: "deposit",     label: "투자자예탁금", color: "#2f6fed" },
+  { key: "credit_loan", label: "신용융자",     color: "#e0733a" },
+  { key: "cma",         label: "CMA잔고",      color: "#4a9a72" },
 ];
 
 const fmt = (n) => n.toLocaleString("ko-KR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
