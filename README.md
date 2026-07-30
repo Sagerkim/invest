@@ -14,7 +14,7 @@
    - `TELEGRAM_BOT_TOKEN` : BotFather가 준 토큰
    - `TELEGRAM_CHAT_ID` : 내 대화방 번호
 2. **Variables** — 같은 화면의 `Variables` 탭
-   - `DASHBOARD_URL` : `https://<아이디>.github.io/kofia-daily/`
+   - `DASHBOARD_URL` : `https://sagerkim.github.io/invest/`
    - `DEBUG` : 파싱 결과를 로그로 보고 싶을 때만 `1`
 3. **Pages** — `Settings > Pages` → Source `Deploy from a branch` → `main` / `/docs`
 
