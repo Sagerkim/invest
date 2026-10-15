@@ -1,31 +1,31 @@
 {
- "updated_at": "2026-10-14T10:17:19+09:00",
+ "updated_at": "2026-10-15T09:37:37+09:00",
  "unit": "조원",
  "source": "https://freesis.kofia.or.kr/stat/main.do",
  "metrics": {
   "deposit": {
    "label": "투자자예탁금",
-   "date": "2026-10-12",
-   "value": 100.439,
-   "change": 0.329,
-   "prev_date": "2026-10-08",
-   "pct": "0.33%"
+   "date": "2026-10-13",
+   "value": 100.098,
+   "change": -0.341,
+   "prev_date": "2026-10-12",
+   "pct": "-0.34%"
   },
   "credit_loan": {
    "label": "신용융자",
-   "date": "2026-10-12",
-   "value": 34.289,
-   "change": 0.478,
-   "prev_date": "2026-10-08",
-   "pct": "1.41%"
+   "date": "2026-10-13",
+   "value": 34.253,
+   "change": -0.036,
+   "prev_date": "2026-10-12",
+   "pct": "-0.1%"
   },
   "cma": {
    "label": "CMA잔고",
-   "date": "2026-10-12",
-   "value": 99.689,
-   "change": -1.408,
-   "prev_date": "2026-10-08",
-   "pct": "-1.39%"
+   "date": "2026-10-13",
+   "value": 100.638,
+   "change": 0.949,
+   "prev_date": "2026-10-12",
+   "pct": "0.95%"
   }
  }
 }
